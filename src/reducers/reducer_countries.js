@@ -9,9 +9,24 @@ export default function(state = initialState, action) {
     case GET_COUNTRIES:
       return {
         ...state,
-        countries: action.payload
+        countries: getCountriesInfo(action.payload)
       };
     default:
       return state;
   }
+}
+
+function getCountriesInfo(data) {
+  return data
+    .map(country => {
+      return {
+        name: country.name,
+        currencyCode: country.currencies[0].code,
+        flag: country.flag,
+        code: country.alpha3Code
+      };
+    })
+    .filter(country => {
+      return country.currencyCode !== "USD";
+    });
 }

@@ -9,8 +9,14 @@ class SearchBar extends Component {
 
   renderSelectedCountries() {
     return (
-      <select>
-        <option></option>
+      <select className="search-bar">
+        {this.props.countries.map(country => {
+          return (
+            <option key={country.code} value={country.code}>
+              {country.name}
+            </option>
+          );
+        })}
       </select>
     );
   }
@@ -24,12 +30,16 @@ class SearchBar extends Component {
   }
 }
 
+const mapStateToProps = store => {
+  return { countries: store.countriesReducer.countries };
+};
+
 const mapDispatchToProps = {
   fetchCountries
 };
 
 //mapStateToProps est undefined
 export default connect(
-  undefined,
+  mapStateToProps,
   mapDispatchToProps
 )(SearchBar);
