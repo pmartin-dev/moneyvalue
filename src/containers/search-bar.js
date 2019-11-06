@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { fetchCountries } from "../actions/index";
+import { fetchCountries, fetchRateExchange } from "../actions/index";
 import { connect } from "react-redux";
+const lodash = require("lodash");
 
 class SearchBar extends Component {
   componentWillMount() {
@@ -9,7 +10,10 @@ class SearchBar extends Component {
 
   renderSelectedCountries() {
     return (
-      <select className="search-bar">
+      <select
+        onChange={event => this.onChangeCountry(event)}
+        className="form-control search-bar"
+      >
         {this.props.countries.map(country => {
           return (
             <option key={country.code} value={country.code}>
@@ -21,10 +25,16 @@ class SearchBar extends Component {
     );
   }
 
+  onChangeCountry = event => {
+    const countryCode = event.target.value;
+    const country = lodash.find(this.props.countries, { code: countryCode });
+    this.props.fetchRateExchange(country);
+  };
+
   render() {
     return (
       <div>
-        <form>{this.renderSelectedCountries()}</form>
+        <form className="form-group">{this.renderSelectedCountries()}</form>
       </div>
     );
   }
@@ -35,7 +45,8 @@ const mapStateToProps = store => {
 };
 
 const mapDispatchToProps = {
-  fetchCountries
+  fetchCountries,
+  fetchRateExchange
 };
 
 //mapStateToProps est undefined
