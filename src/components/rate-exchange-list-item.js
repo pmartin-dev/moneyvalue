@@ -29,9 +29,12 @@ class RateExchangeListItem extends Component {
 }
 
 function formatData(rates, currencyCode) {
+  let finalTable = [];
   Object.keys(rates).map(date => {
-    return [date, rates[date][currencyCode]];
+    console.log([date, rates[date][currencyCode]]);
+    finalTable.push([date, rates[date][currencyCode]]);
   });
+  return finalTable;
 }
 
 export default RateExchangeListItem;
